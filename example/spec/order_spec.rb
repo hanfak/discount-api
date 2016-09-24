@@ -4,7 +4,8 @@ require './models/material'
 require './models/order'
 
 describe Order do
-  subject { Order.new material }
+  let(:discounts) { double :Discounts, discount_percentage: 0.9 }
+  subject { Order.new(material, discounts) }
   let(:material) { Material.new 'HON/TEST001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
   let(:express_delivery) { Delivery.new(:express, 20) }
@@ -16,6 +17,9 @@ describe Order do
   end
 
   context 'with items' do
+    let(:no_discounts) { double :Discounts, discount_percentage: 1.0 }
+    subject { Order.new(material, no_discounts) }
+
     it 'returns the total cost of all items' do
       broadcaster_1 = Broadcaster.new(1, 'Viacom')
       broadcaster_2 = Broadcaster.new(2, 'Disney')
@@ -27,6 +31,9 @@ describe Order do
     end
 
     context 'with discount' do
+      let(:discounts) { double :Discounts, discount_percentage: 0.9 }
+      subject { Order.new(material, discounts) }
+
       it 'adds discount when total is greater than 30' do
         broadcaster_1 = Broadcaster.new(1, 'Viacom')
         broadcaster_2 = Broadcaster.new(2, 'Disney')

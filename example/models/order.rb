@@ -5,10 +5,11 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items
+  attr_accessor :material, :discounts, :items
 
-  def initialize(material)
+  def initialize(material, discounts)
     self.material = material
+    self.discounts = discounts
     self.items = []
   end
 
@@ -17,7 +18,7 @@ class Order
   end
 
   def total_cost
-    sub_total * discount_amount(sub_total)
+    sub_total * discounts.discount_percentage(sub_total)
   end
 
   def output
@@ -48,9 +49,5 @@ class Order
 
   def sub_total
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
-  end
-
-  def discount_amount(total)
-    total > 30 ? (1.0 - 0.1) : 1.0
   end
 end

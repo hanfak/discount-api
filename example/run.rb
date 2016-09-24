@@ -4,6 +4,7 @@ require './models/broadcaster'
 require './models/delivery'
 require './models/material'
 require './models/order'
+require './models/discounts'
 
 standard_delivery = Delivery.new(:standard, 10.0)
 express_delivery = Delivery.new(:express, 20.0)
@@ -18,7 +19,9 @@ broadcaster_7 = Broadcaster.new(7, 'Horse and Country')
 
 material = Material.new('WNP/SWCL001/010')
 
-order = Order.new(material)
+discounts = Discounts.new(discount_total_amount: 0.1, discount_total_minimum: 30)
+
+order = Order.new(material, discounts)
 
 order.add broadcaster_1, standard_delivery
 order.add broadcaster_2, standard_delivery
