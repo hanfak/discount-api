@@ -7,7 +7,9 @@ class Order
 
   attr_accessor :material, :discounts, :items
 
-  def initialize(material, discounts)
+  def initialize(material, discounts =
+                Discounts.new(discount_total_amount: 0.1,
+                              discount_total_minimum: 30))
     self.material = material
     self.discounts = discounts
     self.items = []

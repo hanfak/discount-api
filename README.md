@@ -1,4 +1,4 @@
-# Engineering Test 
+# Engineering Test
 
 ## The challenge
 
@@ -52,3 +52,15 @@ Based on the both Discounts applied, the following examples should be valid:
 
 * send `ZDW/EOWW005/010` to Disney, Discovery, Viacom via Express Delivery
      based on the defined Discounts the total should be $40.50
+
+# My approach
+
+Two implementations to add, total discount and multi buy for express delivery. I decided to do the total discount first.
+
+I did not want to change to much of the code, so just changed the method implementation instead and kept the api methods the same. As the implementation for the discounts were increase the amount of methods in the code, I felt it would be best to extract a discount class and inject it into the order class, this way sticking to the single responsibilty principle.
+
+The class for discounts, allows the user to decide the values for the discounts (ie percentage etc) thus not hard coding these numbers, this is sticking to the open-closed principle.
+
+All the code was test driven. I decided to use feature testing (with capybara), to test all the parts of the objects were integrated and the examples given above were working. I felt this was better than running the script run.rb as a manual check for integration.
+
+Although the order class has no mocks of injected classes, I felt it would be best to do this for the class I created (discount).
