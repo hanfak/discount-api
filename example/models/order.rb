@@ -50,6 +50,12 @@ class Order
   end
 
   def sub_total
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+    items.inject(0) do |memo, (_, delivery)|
+      memo += delivery.name == :express && total_express_deliveries > 1 ? 15 : delivery.price
+    end
+  end
+
+  def total_express_deliveries
+    items.select { |(_, delivery)| delivery.name == :express}.size
   end
 end
