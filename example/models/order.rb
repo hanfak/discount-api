@@ -5,14 +5,17 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :discounts, :items
+  attr_accessor :material, :items
 
   def initialize(material, discounts =
                 Discounts.new(discount_total_amount: 0.1,
-                              discount_total_minimum: 30))
+                              discount_total_minimum: 30,
+                              total_express_minimum: 1,
+                              express_discount: 0.75 ))
     self.material = material
-    self.discounts = discounts
     self.items = []
+    @discounts = discounts
+
   end
 
   def add(broadcaster, delivery)
@@ -20,7 +23,8 @@ class Order
   end
 
   def total_cost
-    sub_total * discounts.discount_percentage(sub_total)
+    total = sub_total
+    total * discounts.total_cost_percentage(total)
   end
 
   def output
@@ -44,6 +48,7 @@ class Order
   end
 
   private
+  attr_reader :discounts
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
@@ -51,7 +56,7 @@ class Order
 
   def sub_total
     items.inject(0) do |memo, (_, delivery)|
-      memo += delivery.name == :express && total_express_deliveries > 1 ? 15 : delivery.price
+      memo += delivery.price * discounts.express_delivery_percentage(delivery.name, total_express_deliveries)
     end
   end
 

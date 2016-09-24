@@ -19,12 +19,15 @@ broadcaster_7 = Broadcaster.new(7, 'Horse and Country')
 
 material = Material.new('WNP/SWCL001/010')
 
-discounts = Discounts.new(discount_total_amount: 0.1, discount_total_minimum: 30)
+discounts = Discounts.new(discount_total_amount: 0.1,
+                          discount_total_minimum: 30,
+                          total_express_minimum: 1,
+                          express_discount: 0.75)
 
 order = Order.new(material, discounts)
 
 order.add broadcaster_1, standard_delivery
-order.add broadcaster_2, standard_delivery
+order.add broadcaster_2, express_delivery
 order.add broadcaster_3, express_delivery
 
 print order.output
