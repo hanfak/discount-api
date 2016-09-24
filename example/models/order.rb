@@ -16,16 +16,8 @@ class Order
     items << [broadcaster, delivery]
   end
 
-  def total_pre_discount
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
-  end
-
   def total_cost
-    if total_pre_discount > 30
-      total_pre_discount * 0.9
-    else
-      total_pre_discount
-    end
+    sub_total * discount_amount(sub_total)
   end
 
   def output
@@ -52,5 +44,13 @@ class Order
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
+  end
+
+  def sub_total
+    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  end
+
+  def discount_amount(total)
+    total > 30 ? (1.0 - 0.1) : 1.0
   end
 end
