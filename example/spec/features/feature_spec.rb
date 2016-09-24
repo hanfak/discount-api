@@ -37,4 +37,4 @@ end
 #
 #     expect(order.total_cost).to eq(40.50)
 #   end
-end
+# end

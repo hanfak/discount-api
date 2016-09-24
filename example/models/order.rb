@@ -16,8 +16,16 @@ class Order
     items << [broadcaster, delivery]
   end
 
-  def total_cost
+  def total_pre_discount
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  end
+
+  def total_cost
+    if total_pre_discount > 30
+      total_pre_discount * 0.9
+    else
+      total_pre_discount
+    end
   end
 
   def output
